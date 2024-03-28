@@ -15,5 +15,3 @@ class BookModel with _$BookModel {
 
   factory BookModel.fromJson(Map<String, Object?> json) => _$BookModelFromJson(json);
 }
-
-typedef BibleModel = List<BookModel>;
