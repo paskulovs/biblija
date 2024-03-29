@@ -39,6 +39,7 @@ dependencies:
   flutter_hooks: ^0.20.5
   bible_repository:
     path: packages/bible_repository
+  go_router: ^13.2.2
 
 dev_dependencies:
   flutter_test:
