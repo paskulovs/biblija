@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bible_repository/bible_repository.dart';
 import 'package:riverpod/riverpod.dart';
-import 'model/bible_model.dart';
 
 class BibleNotifier extends AutoDisposeAsyncNotifier<BibleModel> {
   final BibleRepository _repository = BibleRepository();

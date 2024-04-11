@@ -21,6 +21,11 @@ BookModel _$BookModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BookModel {
   String get name => throw _privateConstructorUsedError;
+  @JsonKey(
+      name: "reference_id",
+      fromJson: _referenceFromJson,
+      toJson: _referenceToJson)
+  BookReferenceId get referenceId => throw _privateConstructorUsedError;
   List<ChapterModel> get chapters => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -34,7 +39,14 @@ abstract class $BookModelCopyWith<$Res> {
   factory $BookModelCopyWith(BookModel value, $Res Function(BookModel) then) =
       _$BookModelCopyWithImpl<$Res, BookModel>;
   @useResult
-  $Res call({String name, List<ChapterModel> chapters});
+  $Res call(
+      {String name,
+      @JsonKey(
+          name: "reference_id",
+          fromJson: _referenceFromJson,
+          toJson: _referenceToJson)
+      BookReferenceId referenceId,
+      List<ChapterModel> chapters});
 }
 
 /// @nodoc
@@ -51,6 +63,7 @@ class _$BookModelCopyWithImpl<$Res, $Val extends BookModel>
   @override
   $Res call({
     Object? name = null,
+    Object? referenceId = null,
     Object? chapters = null,
   }) {
     return _then(_value.copyWith(
@@ -58,6 +71,10 @@ class _$BookModelCopyWithImpl<$Res, $Val extends BookModel>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      referenceId: null == referenceId
+          ? _value.referenceId
+          : referenceId // ignore: cast_nullable_to_non_nullable
+              as BookReferenceId,
       chapters: null == chapters
           ? _value.chapters
           : chapters // ignore: cast_nullable_to_non_nullable
@@ -74,7 +91,14 @@ abstract class _$$BookModelImplCopyWith<$Res>
       __$$BookModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, List<ChapterModel> chapters});
+  $Res call(
+      {String name,
+      @JsonKey(
+          name: "reference_id",
+          fromJson: _referenceFromJson,
+          toJson: _referenceToJson)
+      BookReferenceId referenceId,
+      List<ChapterModel> chapters});
 }
 
 /// @nodoc
@@ -89,6 +113,7 @@ class __$$BookModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
+    Object? referenceId = null,
     Object? chapters = null,
   }) {
     return _then(_$BookModelImpl(
@@ -96,6 +121,10 @@ class __$$BookModelImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      referenceId: null == referenceId
+          ? _value.referenceId
+          : referenceId // ignore: cast_nullable_to_non_nullable
+              as BookReferenceId,
       chapters: null == chapters
           ? _value._chapters
           : chapters // ignore: cast_nullable_to_non_nullable
@@ -108,7 +137,13 @@ class __$$BookModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BookModelImpl extends _BookModel {
   const _$BookModelImpl(
-      {required this.name, required final List<ChapterModel> chapters})
+      {required this.name,
+      @JsonKey(
+          name: "reference_id",
+          fromJson: _referenceFromJson,
+          toJson: _referenceToJson)
+      required this.referenceId,
+      required final List<ChapterModel> chapters})
       : _chapters = chapters,
         super._();
 
@@ -117,6 +152,12 @@ class _$BookModelImpl extends _BookModel {
 
   @override
   final String name;
+  @override
+  @JsonKey(
+      name: "reference_id",
+      fromJson: _referenceFromJson,
+      toJson: _referenceToJson)
+  final BookReferenceId referenceId;
   final List<ChapterModel> _chapters;
   @override
   List<ChapterModel> get chapters {
@@ -127,7 +168,7 @@ class _$BookModelImpl extends _BookModel {
 
   @override
   String toString() {
-    return 'BookModel(name: $name, chapters: $chapters)';
+    return 'BookModel(name: $name, referenceId: $referenceId, chapters: $chapters)';
   }
 
   @override
@@ -136,13 +177,15 @@ class _$BookModelImpl extends _BookModel {
         (other.runtimeType == runtimeType &&
             other is _$BookModelImpl &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.referenceId, referenceId) ||
+                other.referenceId == referenceId) &&
             const DeepCollectionEquality().equals(other._chapters, _chapters));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, name, const DeepCollectionEquality().hash(_chapters));
+  int get hashCode => Object.hash(runtimeType, name, referenceId,
+      const DeepCollectionEquality().hash(_chapters));
 
   @JsonKey(ignore: true)
   @override
@@ -161,6 +204,11 @@ class _$BookModelImpl extends _BookModel {
 abstract class _BookModel extends BookModel {
   const factory _BookModel(
       {required final String name,
+      @JsonKey(
+          name: "reference_id",
+          fromJson: _referenceFromJson,
+          toJson: _referenceToJson)
+      required final BookReferenceId referenceId,
       required final List<ChapterModel> chapters}) = _$BookModelImpl;
   const _BookModel._() : super._();
 
@@ -169,6 +217,12 @@ abstract class _BookModel extends BookModel {
 
   @override
   String get name;
+  @override
+  @JsonKey(
+      name: "reference_id",
+      fromJson: _referenceFromJson,
+      toJson: _referenceToJson)
+  BookReferenceId get referenceId;
   @override
   List<ChapterModel> get chapters;
   @override

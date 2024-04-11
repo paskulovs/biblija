@@ -1,3 +1,4 @@
+import 'package:bible_repository/src/enum/book_reference_id.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'book_model.dart';
 
@@ -14,4 +15,8 @@ class BibleModel with _$BibleModel {
   const BibleModel._();
 
   factory BibleModel.fromJson(Map<String, Object?> json) => _$BibleModelFromJson(json);
+
+  BookModel? getBookByReferenceId(BookReferenceId referenceId) {
+    return books.firstWhere((book) => book.referenceId == referenceId, orElse: null,);
+  }
 }

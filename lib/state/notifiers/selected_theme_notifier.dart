@@ -9,13 +9,14 @@ enum ThemeMode {
   system;
 
   ThemeData get theme {
-    switch(this) {
+    switch (this) {
       case ThemeMode.dark:
         return darkTheme();
       case ThemeMode.light:
         return lightTheme();
       case ThemeMode.system:
-        final brightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
+        final brightness =
+            WidgetsBinding.instance.platformDispatcher.platformBrightness;
         return brightness == Brightness.light ? lightTheme() : darkTheme();
     }
   }
