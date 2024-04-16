@@ -1,4 +1,4 @@
-import 'package:bible_repository/bible_repository.dart';
+import 'package:biblija/state/providers/bible_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,7 +8,7 @@ class ChooseBookPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bibleBooks = ref.watch(bibleProvider);
+    final bibleBooks = ref.watch(bibleStateProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -24,10 +24,12 @@ class ChooseBookPage extends ConsumerWidget {
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
                 title: Text("${index + 1}. ${value.books[index].name}"),
-                onTap: () => context.goNamed(
-                  "choose-chapter",
-                  pathParameters: {"book": value.books[index].referenceId.name},
-                ),
+                onTap: () {
+                  context.goNamed(
+                    "chapters",
+                    pathParameters: {"book": value.books[index].referenceId.value},
+                  );
+                },
               );
             },
             separatorBuilder: (BuildContext context, int index) {

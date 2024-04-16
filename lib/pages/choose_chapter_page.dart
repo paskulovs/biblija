@@ -1,5 +1,7 @@
-import 'package:bible_repository/bible_repository.dart';
+import 'package:biblija/state/notifiers/bible_state_notifier.dart';
+import 'package:biblija/state/providers/bible_state_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ChooseChapterPage extends ConsumerWidget {
@@ -9,9 +11,10 @@ class ChooseChapterPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bibleState = ref.watch(bibleProvider);
+    final bibleState = ref.watch(bibleStateProvider);
     return switch (bibleState) {
-      AsyncData<BibleModel>(:final value) => _buildScaffold(context, value),
+      AsyncData<BibleState>(:final value) =>
+        _buildScaffold(context, ref, value),
       AsyncError(:final error) => Text(error.toString()),
       _ => const Center(
           child: CircularProgressIndicator(),
@@ -19,12 +22,10 @@ class ChooseChapterPage extends ConsumerWidget {
     };
   }
 
-  Scaffold _buildScaffold(BuildContext context, BibleModel bible) {
-    final referenceId = bookReferenceId != null
-        ? BookReferenceId.values.byName(bookReferenceId!)
-        : null;
-    final book =
-        referenceId != null ? bible.getBookByReferenceId(referenceId) : null;
+  Scaffold _buildScaffold(
+      BuildContext context, WidgetRef ref, BibleState bible) {
+    final themeData = Theme.of(context);
+    final book = bible.getBookByReferenceIdString(bookReferenceId);
     if (book == null) {
       return Scaffold(
         appBar: _appBar(context, 'Bad Reference'),
@@ -42,8 +43,22 @@ class ChooseChapterPage extends ConsumerWidget {
         padding: const EdgeInsets.all(10),
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            child: GridTile(
-              child: Text("${book.chapters[index].chapter}"),
+            onTap: () {
+              context.goNamed(
+                "verses",
+                pathParameters: {"book": book.referenceId.value,"chapter": book.chapters[index].chapter.toString()},
+              );
+            },
+            child: Card(
+              margin: const EdgeInsets.all(5),
+              child: GridTile(
+                child: Center(
+                  child: Text(
+                    "${book.chapters[index].chapter}",
+                    style: themeData.textTheme.titleMedium,
+                  ),
+                ),
+              ),
             ),
           );
         },

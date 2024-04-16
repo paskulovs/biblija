@@ -28,4 +28,4 @@ BookReferenceId _referenceFromJson(String referenceString) {
 }
 
 //Todo: Remove this
-String _referenceToJson(BookReferenceId? referenceId) => referenceId?.referenceId ?? "";
+String _referenceToJson(BookReferenceId? referenceId) => referenceId?.value ?? "";
