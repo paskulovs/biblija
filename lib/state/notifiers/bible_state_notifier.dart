@@ -58,7 +58,9 @@ class BibleState with _$BibleState {
   }
 
   BookState? getBookByReferenceIdString(String? referenceIdString) {
-    final referenceId = referenceIdString != null ? BookReferenceId.fromString(referenceIdString) : null;
+    final referenceId = referenceIdString != null
+        ? BookReferenceId.fromString(referenceIdString)
+        : null;
     return books.firstWhere((book) => book.referenceId == referenceId);
   }
 }
@@ -82,18 +84,22 @@ class BibleStateNotifier extends AsyncNotifier<BibleState> {
                   .map(
                     (chapterDTO) => ChapterState(
                       chapter: chapterDTO.chapter,
-                      verses: chapterDTO.verses.map(
-                        (verseDTO) => VerseState(
-                          chapter: verseDTO.chapter,
-                          verse: verseDTO.verse,
-                          name: verseDTO.name,
-                          text: verseDTO.text,
-                        ),
-                      ).toList(),
+                      verses: chapterDTO.verses
+                          .map(
+                            (verseDTO) => VerseState(
+                              chapter: verseDTO.chapter,
+                              verse: verseDTO.verse,
+                              name: verseDTO.name,
+                              text: verseDTO.text,
+                            ),
+                          )
+                          .toList(),
                     ),
-                  ).toList(),
+                  )
+                  .toList(),
             ),
-          ).toList(),
+          )
+          .toList(),
     );
   }
 }

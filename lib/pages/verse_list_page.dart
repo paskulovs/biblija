@@ -21,11 +21,11 @@ class VerseListPage extends ConsumerWidget {
     return switch (bibleState) {
       AsyncData(:final value) => _buildScaffold(context, value),
       _ => const Center(
-        child: CircularProgressIndicator(),
-      ),
+          child: CircularProgressIndicator(),
+        ),
     };
   }
-  
+
   Scaffold _buildScaffold(BuildContext context, BibleState bible) {
     final themeData = Theme.of(context);
     final book = bible.getBookByReferenceIdString(selectedBook);
@@ -41,51 +41,11 @@ class VerseListPage extends ConsumerWidget {
         padding: const EdgeInsets.all(10),
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            title: Text(
-                "${index + 1}. ${chapter.verses[index].text}"),
+            title: Text("${index + 1}. ${chapter.verses[index].text}"),
             contentPadding: EdgeInsets.zero,
             titleTextStyle: themeData.textTheme.bodyLarge,
             dense: true,
-            onTap: () => showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text("References"),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        GestureDetector(
-                          child: Text(
-                            'John 13:1',
-                            style: themeData.textTheme.bodyLarge
-                                ?.copyWith(color: Colors.blue),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                            context.goNamed(
-                              "verses",
-                              pathParameters: {"book": BookReferenceId.john.value,"chapter": "13"},
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 15),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Close'),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                }),
+            onTap: () => _showReferenceDialog(context),
           );
         },
         separatorBuilder: (BuildContext context, int index) {
@@ -93,5 +53,53 @@ class VerseListPage extends ConsumerWidget {
         },
       ),
     );
+  }
+
+  _showReferenceDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("References"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                GestureDetector(
+                  child: Text(
+                    'John 13:1',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(color: Colors.blue),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    context.goNamed(
+                      "verses",
+                      pathParameters: {
+                        "book": BookReferenceId.john.value,
+                        "chapter": "13",
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Close'),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          );
+        });
   }
 }

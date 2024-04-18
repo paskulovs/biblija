@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:biblija/themes/default_dark_theme.dart';
 import 'package:biblija/themes/default_light_theme.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +17,7 @@ enum ThemeMode {
       case ThemeMode.light:
         return lightTheme();
       case ThemeMode.system:
-        final brightness =
-            WidgetsBinding.instance.platformDispatcher.platformBrightness;
+        final brightness = PlatformDispatcher.instance.platformBrightness;
         return brightness == Brightness.light ? lightTheme() : darkTheme();
     }
   }
@@ -28,7 +29,7 @@ class SelectedThemeNotifier extends Notifier<ThemeMode> {
     return ThemeMode.system;
   }
 
-  void changeTheme(ThemeMode mode) {
+  void changeThemeMode(ThemeMode mode) {
     state = mode;
   }
 }

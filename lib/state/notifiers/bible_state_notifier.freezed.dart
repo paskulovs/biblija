@@ -17,8 +17,11 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$VerseState {
   int get chapter => throw _privateConstructorUsedError;
+
   int get verse => throw _privateConstructorUsedError;
+
   String get name => throw _privateConstructorUsedError;
+
   String get text => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,6 +34,7 @@ abstract class $VerseStateCopyWith<$Res> {
   factory $VerseStateCopyWith(
           VerseState value, $Res Function(VerseState) then) =
       _$VerseStateCopyWithImpl<$Res, VerseState>;
+
   @useResult
   $Res call({int chapter, int verse, String name, String text});
 }
@@ -42,6 +46,7 @@ class _$VerseStateCopyWithImpl<$Res, $Val extends VerseState>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -80,6 +85,7 @@ abstract class _$$VerseStateImplCopyWith<$Res>
   factory _$$VerseStateImplCopyWith(
           _$VerseStateImpl value, $Res Function(_$VerseStateImpl) then) =
       __$$VerseStateImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call({int chapter, int verse, String name, String text});
@@ -184,16 +190,21 @@ abstract class _VerseState extends VerseState {
       required final int verse,
       required final String name,
       required final String text}) = _$VerseStateImpl;
+
   const _VerseState._() : super._();
 
   @override
   int get chapter;
+
   @override
   int get verse;
+
   @override
   String get name;
+
   @override
   String get text;
+
   @override
   @JsonKey(ignore: true)
   _$$VerseStateImplCopyWith<_$VerseStateImpl> get copyWith =>
@@ -203,6 +214,7 @@ abstract class _VerseState extends VerseState {
 /// @nodoc
 mixin _$ChapterState {
   int get chapter => throw _privateConstructorUsedError;
+
   List<VerseState> get verses => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -215,6 +227,7 @@ abstract class $ChapterStateCopyWith<$Res> {
   factory $ChapterStateCopyWith(
           ChapterState value, $Res Function(ChapterState) then) =
       _$ChapterStateCopyWithImpl<$Res, ChapterState>;
+
   @useResult
   $Res call({int chapter, List<VerseState> verses});
 }
@@ -226,6 +239,7 @@ class _$ChapterStateCopyWithImpl<$Res, $Val extends ChapterState>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -254,6 +268,7 @@ abstract class _$$ChapterStateImplCopyWith<$Res>
   factory _$$ChapterStateImplCopyWith(
           _$ChapterStateImpl value, $Res Function(_$ChapterStateImpl) then) =
       __$$ChapterStateImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call({int chapter, List<VerseState> verses});
@@ -297,6 +312,7 @@ class _$ChapterStateImpl extends _ChapterState with DiagnosticableTreeMixin {
   @override
   final int chapter;
   final List<VerseState> _verses;
+
   @override
   List<VerseState> get verses {
     if (_verses is EqualUnmodifiableListView) return _verses;
@@ -342,12 +358,15 @@ abstract class _ChapterState extends ChapterState {
   const factory _ChapterState(
       {required final int chapter,
       required final List<VerseState> verses}) = _$ChapterStateImpl;
+
   const _ChapterState._() : super._();
 
   @override
   int get chapter;
+
   @override
   List<VerseState> get verses;
+
   @override
   @JsonKey(ignore: true)
   _$$ChapterStateImplCopyWith<_$ChapterStateImpl> get copyWith =>
@@ -357,7 +376,9 @@ abstract class _ChapterState extends ChapterState {
 /// @nodoc
 mixin _$BookState {
   String get name => throw _privateConstructorUsedError;
+
   BookReferenceId get referenceId => throw _privateConstructorUsedError;
+
   List<ChapterState> get chapters => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -369,6 +390,7 @@ mixin _$BookState {
 abstract class $BookStateCopyWith<$Res> {
   factory $BookStateCopyWith(BookState value, $Res Function(BookState) then) =
       _$BookStateCopyWithImpl<$Res, BookState>;
+
   @useResult
   $Res call(
       {String name, BookReferenceId referenceId, List<ChapterState> chapters});
@@ -381,6 +403,7 @@ class _$BookStateCopyWithImpl<$Res, $Val extends BookState>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -414,6 +437,7 @@ abstract class _$$BookStateImplCopyWith<$Res>
   factory _$$BookStateImplCopyWith(
           _$BookStateImpl value, $Res Function(_$BookStateImpl) then) =
       __$$BookStateImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call(
@@ -467,6 +491,7 @@ class _$BookStateImpl extends _BookState with DiagnosticableTreeMixin {
   @override
   final BookReferenceId referenceId;
   final List<ChapterState> _chapters;
+
   @override
   List<ChapterState> get chapters {
     if (_chapters is EqualUnmodifiableListView) return _chapters;
@@ -516,14 +541,18 @@ abstract class _BookState extends BookState {
       {required final String name,
       required final BookReferenceId referenceId,
       required final List<ChapterState> chapters}) = _$BookStateImpl;
+
   const _BookState._() : super._();
 
   @override
   String get name;
+
   @override
   BookReferenceId get referenceId;
+
   @override
   List<ChapterState> get chapters;
+
   @override
   @JsonKey(ignore: true)
   _$$BookStateImplCopyWith<_$BookStateImpl> get copyWith =>
@@ -533,6 +562,7 @@ abstract class _BookState extends BookState {
 /// @nodoc
 mixin _$BibleState {
   String get name => throw _privateConstructorUsedError;
+
   List<BookState> get books => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -545,6 +575,7 @@ abstract class $BibleStateCopyWith<$Res> {
   factory $BibleStateCopyWith(
           BibleState value, $Res Function(BibleState) then) =
       _$BibleStateCopyWithImpl<$Res, BibleState>;
+
   @useResult
   $Res call({String name, List<BookState> books});
 }
@@ -556,6 +587,7 @@ class _$BibleStateCopyWithImpl<$Res, $Val extends BibleState>
 
   // ignore: unused_field
   final $Val _value;
+
   // ignore: unused_field
   final $Res Function($Val) _then;
 
@@ -584,6 +616,7 @@ abstract class _$$BibleStateImplCopyWith<$Res>
   factory _$$BibleStateImplCopyWith(
           _$BibleStateImpl value, $Res Function(_$BibleStateImpl) then) =
       __$$BibleStateImplCopyWithImpl<$Res>;
+
   @override
   @useResult
   $Res call({String name, List<BookState> books});
@@ -627,6 +660,7 @@ class _$BibleStateImpl extends _BibleState with DiagnosticableTreeMixin {
   @override
   final String name;
   final List<BookState> _books;
+
   @override
   List<BookState> get books {
     if (_books is EqualUnmodifiableListView) return _books;
@@ -672,12 +706,15 @@ abstract class _BibleState extends BibleState {
   const factory _BibleState(
       {required final String name,
       required final List<BookState> books}) = _$BibleStateImpl;
+
   const _BibleState._() : super._();
 
   @override
   String get name;
+
   @override
   List<BookState> get books;
+
   @override
   @JsonKey(ignore: true)
   _$$BibleStateImplCopyWith<_$BibleStateImpl> get copyWith =>

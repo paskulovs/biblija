@@ -36,7 +36,7 @@ class ChooseChapterPage extends ConsumerWidget {
       );
     }
     return Scaffold(
-      appBar: _appBar(context, 'Choose Chapter'),
+      appBar: _appBar(context, book.name),
       body: GridView.builder(
         itemCount: book.chapters.length,
         shrinkWrap: true,
@@ -46,7 +46,10 @@ class ChooseChapterPage extends ConsumerWidget {
             onTap: () {
               context.goNamed(
                 "verses",
-                pathParameters: {"book": book.referenceId.value,"chapter": book.chapters[index].chapter.toString()},
+                pathParameters: {
+                  "book": book.referenceId.value,
+                  "chapter": book.chapters[index].chapter.toString()
+                },
               );
             },
             child: Card(

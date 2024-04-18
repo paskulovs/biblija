@@ -27,7 +27,9 @@ class ChooseBookPage extends ConsumerWidget {
                 onTap: () {
                   context.goNamed(
                     "chapters",
-                    pathParameters: {"book": value.books[index].referenceId.value},
+                    pathParameters: {
+                      "book": value.books[index].referenceId.value
+                    },
                   );
                 },
               );
