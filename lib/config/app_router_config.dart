@@ -23,6 +23,7 @@ class AppRouterConfig {
               builder: (context, GoRouterState state) => VerseListPage(
                 selectedBook: state.pathParameters['book'],
                 selectedChapter: state.pathParameters['chapter'],
+                selectedVerse: state.uri.queryParameters['verse'],
               ),
             ),
           ],

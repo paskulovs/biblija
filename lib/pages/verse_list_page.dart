@@ -4,15 +4,18 @@ import 'package:biblija/state/providers/bible_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class VerseListPage extends ConsumerWidget {
   final String? selectedBook;
   final String? selectedChapter;
+  final String? selectedVerse;
 
   const VerseListPage({
     super.key,
     required this.selectedBook,
     required this.selectedChapter,
+    required this.selectedVerse,
   });
 
   @override
@@ -30,13 +33,19 @@ class VerseListPage extends ConsumerWidget {
     final themeData = Theme.of(context);
     final book = bible.getBookByReferenceIdString(selectedBook);
     final chapter = book?.getChapterByNumber(int.parse(selectedChapter!));
+    final itemScrollController = ItemScrollController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => _jumpToVerse(
+          itemScrollController,
+        ));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: themeData.colorScheme.primary,
         title: Text("${book?.name} $selectedChapter"),
       ),
-      body: ListView.separated(
+      body: ScrollablePositionedList.separated(
         itemCount: chapter!.verses.length,
+        itemScrollController: itemScrollController,
         shrinkWrap: true,
         padding: const EdgeInsets.all(10),
         itemBuilder: (BuildContext context, int index) {
@@ -45,7 +54,7 @@ class VerseListPage extends ConsumerWidget {
             contentPadding: EdgeInsets.zero,
             titleTextStyle: themeData.textTheme.bodyLarge,
             dense: true,
-            onTap: () => _showReferenceDialog(context),
+            onTap: () => _showReferenceDialog(context, itemScrollController),
           );
         },
         separatorBuilder: (BuildContext context, int index) {
@@ -55,7 +64,13 @@ class VerseListPage extends ConsumerWidget {
     );
   }
 
-  _showReferenceDialog(BuildContext context) {
+  void _jumpToVerse(ItemScrollController itemScrollController) {
+    if (selectedVerse != null) {
+      itemScrollController.jumpTo(index: int.parse(selectedVerse!) -1);
+    }
+  }
+
+  void _showReferenceDialog(BuildContext context, itemScrollController) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -68,7 +83,7 @@ class VerseListPage extends ConsumerWidget {
               children: <Widget>[
                 GestureDetector(
                   child: Text(
-                    'John 13:1',
+                    'John 13:12',
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge
@@ -76,13 +91,13 @@ class VerseListPage extends ConsumerWidget {
                   ),
                   onTap: () {
                     Navigator.pop(context);
-                    context.goNamed(
-                      "verses",
-                      pathParameters: {
-                        "book": BookReferenceId.john.value,
-                        "chapter": "13",
-                      },
-                    );
+                    context.goNamed("verses", pathParameters: {
+                      "book": BookReferenceId.john.value,
+                      "chapter": "13",
+                    }, queryParameters: {
+                      "verse": "12"
+                    });
+                    _jumpToVerse(itemScrollController);
                   },
                 ),
                 const SizedBox(height: 15),
