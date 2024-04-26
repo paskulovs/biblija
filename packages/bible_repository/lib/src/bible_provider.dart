@@ -1,19 +1,6 @@
-import 'dart:async';
-
 import 'package:bible_repository/bible_repository.dart';
+import 'package:bible_repository/src/sources/json_repository.dart';
 import 'package:riverpod/riverpod.dart';
 
-class BibleNotifier extends AutoDisposeAsyncNotifier<BibleModel> {
-  final BibleRepository _repository = BibleRepository();
-
-  @override
-  FutureOr<BibleModel> build() {
-    return _loadDefaultBible();
-  }
-
-  Future<BibleModel> _loadDefaultBible() async {
-    return await _repository.readJsonFile("lib/assets/kjv.json") ?? BibleModel(name: "", books: [],);
-  }
-}
-
-final bibleProvider = AsyncNotifierProvider.autoDispose<BibleNotifier, BibleModel>(BibleNotifier.new);
+final bibleRepositoryProvider =
+    Provider.autoDispose<BibleRepository>((ref) => JsonRepository());

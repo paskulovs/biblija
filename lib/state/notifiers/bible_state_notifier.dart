@@ -72,7 +72,7 @@ class BibleStateNotifier extends AsyncNotifier<BibleState> {
   }
 
   Future<BibleState> _loadBible() async {
-    final bibleModel = await ref.read(bibleProvider.future);
+    final bibleModel = await ref.read(bibleRepositoryProvider).loadBible();
     return BibleState(
       name: bibleModel.name,
       books: bibleModel.books
