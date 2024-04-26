@@ -1,3 +1,4 @@
+import 'package:biblija/molecules/title_bar_page_scaffold.dart';
 import 'package:biblija/state/providers/bible_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -9,13 +10,9 @@ class ChooseBookPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bibleBooks = ref.watch(bibleStateProvider);
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text(
-          'Choose bible book',
-        ),
-      ),
+    return TitleBarPageScaffold(
+      title: 'Choose bible book',
+      showBackButton: false,
       body: switch (bibleBooks) {
         AsyncData(:final value) => ListView.separated(
             itemCount: value.books.length,

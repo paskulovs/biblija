@@ -1,10 +1,14 @@
 import 'package:bible_repository/bible_repository.dart';
+import 'package:biblija/atoms/hint_dialog.dart';
+import 'package:biblija/atoms/quick_navigation_header.dart';
+import 'package:biblija/molecules/title_bar_page_scaffold.dart';
 import 'package:biblija/state/notifiers/bible_state_notifier.dart';
 import 'package:biblija/state/providers/bible_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:biblija/config/constants.dart';
 
 class VerseListPage extends ConsumerWidget {
   final String? selectedBook;
@@ -29,7 +33,7 @@ class VerseListPage extends ConsumerWidget {
     };
   }
 
-  Scaffold _buildScaffold(BuildContext context, BibleState bible) {
+  Widget _buildScaffold(BuildContext context, BibleState bible) {
     final themeData = Theme.of(context);
     final book = bible.getBookByReferenceIdString(selectedBook);
     final chapter = book?.getChapterByNumber(int.parse(selectedChapter!));
@@ -38,19 +42,16 @@ class VerseListPage extends ConsumerWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) => _jumpToVerse(
           itemScrollController,
         ));
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: themeData.colorScheme.primary,
-        title: Text("${book?.name} $selectedChapter"),
-      ),
+    return TitleBarPageScaffold(
+      title: '${book?.name} $selectedChapter',
+      headerWidget: _quickNavigationHeader(context, book!, chapter!),
       body: ScrollablePositionedList.separated(
         itemCount: chapter!.verses.length,
         itemScrollController: itemScrollController,
-        shrinkWrap: true,
         padding: const EdgeInsets.all(10),
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            title: Text("${index + 1}. ${chapter.verses[index].text}"),
+            title: Text('${index + 1}. ${chapter.verses[index].text}'),
             contentPadding: EdgeInsets.zero,
             titleTextStyle: themeData.textTheme.bodyLarge,
             dense: true,
@@ -64,57 +65,83 @@ class VerseListPage extends ConsumerWidget {
     );
   }
 
-  void _jumpToVerse(ItemScrollController itemScrollController) {
+  _jumpToVerse(ItemScrollController itemScrollController) {
     if (selectedVerse != null) {
-      itemScrollController.jumpTo(index: int.parse(selectedVerse!) -1);
+      itemScrollController.jumpTo(index: int.parse(selectedVerse!) - 1);
     }
+  }
+
+  PreferredSizeWidget _quickNavigationHeader(
+    BuildContext context,
+    BookState book,
+    ChapterState chapter,
+  ) {
+    return PreferredSize(
+      preferredSize: Constants.defaultHeaderSize,
+      child: QuickNavigationHeader(
+        text: '${chapter.chapter}/${book.chapters.length}',
+        onTapLeft: () {
+          if (chapter.chapter > 1) {
+            _goToBibleLocation(
+              context,
+              book.referenceId,
+              chapter.chapter - 1,
+              1,
+            );
+          }
+        },
+        onTapRight: () {
+          if (chapter.chapter < book.chapters.length) {
+            _goToBibleLocation(
+              context,
+              book.referenceId,
+              chapter.chapter + 1,
+              1,
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  void _goToBibleLocation(
+    BuildContext context,
+    BookReferenceId book,
+    int chapter,
+    int verse,
+  ) {
+    context.pushNamed('verses', pathParameters: {
+      'book': book.value,
+      'chapter': chapter.toString(),
+    }, queryParameters: {
+      'verse': verse.toString()
+    });
   }
 
   void _showReferenceDialog(BuildContext context, itemScrollController) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("References"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                GestureDetector(
-                  child: Text(
-                    'John 13:12',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(color: Colors.blue),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    context.goNamed("verses", pathParameters: {
-                      "book": BookReferenceId.john.value,
-                      "chapter": "13",
-                    }, queryParameters: {
-                      "verse": "12"
-                    });
-                    _jumpToVerse(itemScrollController);
-                  },
+          return HintDialog(
+              title: 'References',
+              body: GestureDetector(
+                child: Text(
+                  'John 13:12',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge
+                      ?.copyWith(color: Colors.blue),
                 ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Close'),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          );
+                onTap: () {
+                  Navigator.pop(context);
+                  _goToBibleLocation(
+                    context,
+                    BookReferenceId.john,
+                    13,
+                    12,
+                  );
+                },
+              ));
         });
   }
 }

@@ -23,6 +23,7 @@ ThemeData darkTheme() {
           displayColor: Colors.white,
         ),
     appBarTheme: ThemeData.dark().appBarTheme.copyWith(
+          backgroundColor: defaultPrimaryColor,
           foregroundColor: Colors.white,
           shadowColor: Colors.black,
           elevation: 4,

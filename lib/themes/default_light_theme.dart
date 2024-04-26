@@ -23,6 +23,7 @@ ThemeData lightTheme() {
           displayColor: onBackgroundColor,
         ),
     appBarTheme: ThemeData.light().appBarTheme.copyWith(
+          backgroundColor: defaultPrimaryColor,
           foregroundColor: Colors.white,
           shadowColor: Colors.black,
           elevation: 4,
