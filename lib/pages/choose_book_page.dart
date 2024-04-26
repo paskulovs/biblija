@@ -20,12 +20,12 @@ class ChooseBookPage extends ConsumerWidget {
             padding: const EdgeInsets.all(10),
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                title: Text("${index + 1}. ${value.books[index].name}"),
+                title: Text('${index + 1}. ${value.books[index].name}'),
                 onTap: () {
                   context.goNamed(
-                    "chapters",
+                    'chapters',
                     pathParameters: {
-                      "book": value.books[index].referenceId.value
+                      'book': value.books[index].referenceId.value
                     },
                   );
                 },
