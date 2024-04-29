@@ -32,7 +32,8 @@ ThemeData darkTheme() {
     dividerColor: dividerColor,
     dividerTheme: ThemeData.dark().dividerTheme.copyWith(color: dividerColor),
     listTileTheme: ThemeData.dark().listTileTheme.copyWith(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 8)
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+      selectedColor: Colors.white,
     )
   );
 }

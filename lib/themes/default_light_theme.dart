@@ -33,6 +33,7 @@ ThemeData lightTheme() {
     dividerTheme: ThemeData.light().dividerTheme.copyWith(color: dividerColor),
     listTileTheme: ThemeData.light().listTileTheme.copyWith(
           contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+          selectedColor: onBackgroundColor,
         ),
   );
 }
