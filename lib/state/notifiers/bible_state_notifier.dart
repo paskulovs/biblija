@@ -14,6 +14,7 @@ class VerseState with _$VerseState {
     required int verse,
     required String name,
     required String text,
+    required bool selected,
   }) = _VerseState;
 
   const VerseState._();
@@ -71,6 +72,37 @@ class BibleStateNotifier extends AsyncNotifier<BibleState> {
     return _loadBible();
   }
 
+  Future<void> toggleVerseSelected(
+    BookReferenceId referenceId,
+    int chapterNumber,
+    int verseNumber,
+  ) async {
+    await update((state) => state.copyWith(
+          books: state.books.map((book) {
+            if (book.referenceId != referenceId) {
+              return book;
+            }
+            return book.copyWith(
+              chapters: book.chapters.map((chapter) {
+                if (chapter.chapter != chapterNumber) {
+                  return chapter;
+                }
+                return chapter.copyWith(
+                  verses: chapter.verses.map((verse) {
+                    if(verse.verse != verseNumber) {
+                      return verse;
+                    }
+                    return verse.copyWith(
+                      selected: !verse.selected
+                    );
+                  }).toList(),
+                );
+              }).toList(),
+            );
+          }).toList(),
+        ));
+  }
+
   Future<BibleState> _loadBible() async {
     final bibleModel = await ref.read(bibleRepositoryProvider).loadBible();
     return BibleState(
@@ -91,6 +123,7 @@ class BibleStateNotifier extends AsyncNotifier<BibleState> {
                               verse: verseDTO.verse,
                               name: verseDTO.name,
                               text: verseDTO.text,
+                              selected: false,
                             ),
                           )
                           .toList(),

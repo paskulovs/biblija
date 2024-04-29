@@ -1,6 +1,7 @@
 import 'package:bible_repository/bible_repository.dart';
 import 'package:biblija/atoms/hint_dialog.dart';
 import 'package:biblija/atoms/quick_navigation_header.dart';
+import 'package:biblija/atoms/verses_list_item.dart';
 import 'package:biblija/molecules/title_bar_page_scaffold.dart';
 import 'package:biblija/state/notifiers/bible_state_notifier.dart';
 import 'package:biblija/state/providers/bible_state_provider.dart';
@@ -26,14 +27,14 @@ class VerseListPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bibleState = ref.watch(bibleStateProvider);
     return switch (bibleState) {
-      AsyncData(:final value) => _buildScaffold(context, value),
+      AsyncData(:final value) => _buildScaffold(context, value, ref),
       _ => const Center(
           child: CircularProgressIndicator(),
         ),
     };
   }
 
-  Widget _buildScaffold(BuildContext context, BibleState bible) {
+  Widget _buildScaffold(BuildContext context, BibleState bible, WidgetRef ref) {
     final themeData = Theme.of(context);
     final book = bible.getBookByReferenceIdString(selectedBook);
     final chapter = book?.getChapterByNumber(int.parse(selectedChapter!));
@@ -46,16 +47,21 @@ class VerseListPage extends ConsumerWidget {
       title: '${book?.name} $selectedChapter',
       headerWidget: _quickNavigationHeader(context, book!, chapter!),
       body: ScrollablePositionedList.separated(
-        itemCount: chapter!.verses.length,
+        itemCount: chapter.verses.length,
         itemScrollController: itemScrollController,
         padding: const EdgeInsets.all(10),
         itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text('${index + 1}. ${chapter.verses[index].text}'),
-            contentPadding: EdgeInsets.zero,
-            titleTextStyle: themeData.textTheme.bodyLarge,
-            dense: true,
+          final verse = chapter.verses[index];
+          return VersesListItem(
+            text: '${index + 1}. ${verse.text}',
+            textStyle: themeData.textTheme.bodyLarge,
+            selected: verse.selected,
             onTap: () => _showReferenceDialog(context, itemScrollController),
+            onLongPress: () => _notifier(ref).toggleVerseSelected(
+              book.referenceId,
+              verse.chapter,
+              verse.verse,
+            ),
           );
         },
         separatorBuilder: (BuildContext context, int index) {
@@ -63,6 +69,10 @@ class VerseListPage extends ConsumerWidget {
         },
       ),
     );
+  }
+
+  BibleStateNotifier _notifier(WidgetRef ref) {
+    return ref.read(bibleStateProvider.notifier);
   }
 
   _jumpToVerse(ItemScrollController itemScrollController) {
@@ -86,7 +96,6 @@ class VerseListPage extends ConsumerWidget {
               context,
               book.referenceId,
               chapter.chapter - 1,
-              1,
             );
           }
         },
@@ -96,7 +105,6 @@ class VerseListPage extends ConsumerWidget {
               context,
               book.referenceId,
               chapter.chapter + 1,
-              1,
             );
           }
         },
@@ -107,15 +115,17 @@ class VerseListPage extends ConsumerWidget {
   void _goToBibleLocation(
     BuildContext context,
     BookReferenceId book,
-    int chapter,
-    int verse,
-  ) {
-    context.pushNamed('verses', pathParameters: {
-      'book': book.value,
-      'chapter': chapter.toString(),
-    }, queryParameters: {
-      'verse': verse.toString()
-    });
+    int chapter, {
+    int? verse,
+  }) {
+    context.pushNamed(
+      'verses',
+      pathParameters: {
+        'book': book.value,
+        'chapter': chapter.toString(),
+      },
+      queryParameters: verse != null ? {'verse': verse.toString()} : {},
+    );
   }
 
   void _showReferenceDialog(BuildContext context, itemScrollController) {
@@ -138,7 +148,7 @@ class VerseListPage extends ConsumerWidget {
                     context,
                     BookReferenceId.john,
                     13,
-                    12,
+                    verse: 12,
                   );
                 },
               ));
