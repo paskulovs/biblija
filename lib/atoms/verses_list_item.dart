@@ -20,7 +20,6 @@ class VersesListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(text),
-      contentPadding: EdgeInsets.zero,
       titleTextStyle: textStyle,
       dense: true,
       onTap: onTap,

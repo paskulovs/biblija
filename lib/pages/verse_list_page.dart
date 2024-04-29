@@ -65,7 +65,7 @@ class VerseListPage extends ConsumerWidget {
           );
         },
         separatorBuilder: (BuildContext context, int index) {
-          return const Divider();
+          return const Divider(height: 1);
         },
       ),
     );

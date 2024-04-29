@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const defaultPrimaryColor = Color.fromRGBO(26, 102, 34, 1);
+const defaultPrimaryColor = Color.fromRGBO(76, 15, 14, 1);
 const backgroundColor = Color.fromRGBO(28, 28, 30, 1);
 const onBackgroundColor = Color.fromRGBO(142, 142, 147, 1);
 const surfaceColor = Color.fromRGBO(44, 44, 46, 1);
@@ -31,5 +31,8 @@ ThemeData darkTheme() {
         ),
     dividerColor: dividerColor,
     dividerTheme: ThemeData.dark().dividerTheme.copyWith(color: dividerColor),
+    listTileTheme: ThemeData.dark().listTileTheme.copyWith(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 8)
+    )
   );
 }
